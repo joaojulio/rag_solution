@@ -111,4 +111,5 @@ Um vídeo curto que demonstra o funcionamento do sistema, destacando:
 - Uso do Cache:
     Demonstração de como consultas repetidas são otimizadas com o mecanismo de cache.
 
-Assista ao vídeo de demonstração no YouTube: (link)
+Assista ao vídeo de demonstração no YouTube:
+[![Assista ao vídeo](https://img.youtube.com/vi/AewMMIsGMLs/0.jpg)](https://www.youtube.com/watch?v=AewMMIsGMLs)
