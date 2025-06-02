@@ -1,115 +1,133 @@
 # Advanced RAG Chatbot
 
-Este projeto é uma implementação de um sistema de **IA Generativa com Retrieval-Augmented Generation (RAG)**, voltado para responder perguntas sobre o livro *On the Origin of Species* de Charles Darwin. O sistema combina diversas etapas – desde a ingestão e pré-processamento do texto, geração de embeddings, indexação em um banco vetorial (Pinecone), recuperação e re-ranking dos chunks relevantes, até a composição do prompt e a geração da resposta final por meio de um LLM. Além disso, o sistema conta com um mecanismo de cache e uma etapa de clarificação para lidar com perguntas ambíguas.
+This project is an implementation of a **Generative AI system with Retrieval-Augmented Generation (RAG)**, designed to answer questions about the book *On the Origin of Species* by Charles Darwin. The system integrates multiple stages – from ingestion and preprocessing of the text, embedding generation, vector store indexing (Pinecone), retrieval and re-ranking of relevant chunks, to prompt composition and final response generation via an LLM. Additionally, the system includes a caching mechanism and a clarification step to handle ambiguous questions.
 
-<img src="docs/diagrama_arquitetura.png" alt="Diagrama de Arquitetura" width="300"/>
+<img src="docs/diagrama_arquitetura.png" alt="Architecture Diagram" width="300"/>
 
-## Requisitos do Case
+## Case Requirements
 
-- **Linguagem:** Python  
-- **Framework:** Utilização de modelos generativos integrados via LangChain (incluindo ChatOpenAI para modelos de chat)  
-- **Arquitetura:**
-  - *Ingestão e pré-processamento de dados*
-  - *Geração de embeddings e indexação no Pinecone*
-  - *Recuperação com re-ranking*
-  - *Composição de prompt* (usando informações de **role**, **goal**, **backstory** e **question**)
-  - *Geração de resposta final*
-- **Diferenciais:**
-  - Implementação de re-ranking para aprimorar a relevância dos documentos recuperados
-  - Mecanismo de clarificação para perguntas ambíguas
-  - Cache para otimização de consultas repetidas
-- **Demonstração:** Vídeo demonstrativo
+* **Language:** Python
+* **Framework:** Integration of generative models via LangChain (including ChatOpenAI for chat models)
+* **Architecture:**
 
-## Instalação
+  * *Data ingestion and preprocessing*
+  * *Embedding generation and indexing in Pinecone*
+  * *Retrieval with re-ranking*
+  * *Prompt composition* (using **role**, **goal**, **backstory**, and **question**)
+  * *Final response generation*
+* **Differentiators:**
 
-1. **Clone o repositório:**
+  * Implementation of re-ranking to enhance document relevance
+  * Clarification mechanism for ambiguous questions
+  * Cache system for optimizing repeated queries
+* **Demo:** Demonstration video
 
-    ```bash
-    git clone https://github.com/seu-usuario/advanced_rag.git
-    cd advanced_rag
-2. **Crie e ative um ambiente virtual (usando Anaconda ou virtualenv):**
-    ```bash
-    conda create --name advanced_rag python=3.9
-    conda activate advanced_rag
-3. **Instale as dependências:**
-    ```bash
-    pip install -r requirements.txt
-    Observação: Certifique-se de que todas as dependências necessárias (como Pinecone, langchain-openai, langchain-community, Gradio, diskcache, etc.) estejam instaladas conforme especificado no requirements.txt.
-4. **Configure as variáveis de ambiente:**
-Crie um arquivo .env na raiz do projeto com o seguinte conteúdo (substitua as chaves conforme necessário):
-    ```bash
-    OPENAI_API_KEY=your_openai_api_key
-    PINECONE_API_KEY=your_pinecone_api_key
-    PINECONE_ENV=your_pinecone_env  # Ex.: "us-east-1"
+## Installation
 
-## Execução
+1. **Clone the repository:**
 
-### Front-End com Gradio
-Para iniciar a interface do chatbot, execute:
-    ```bash
-    python src/front_end/app.py
-Isso abrirá a interface Gradio em seu navegador, onde você poderá digitar sua pergunta sobre On the Origin of Species e receber uma resposta gerada pelo sistema.
+   ```bash
+   git clone https://github.com/your-username/advanced_rag.git
+   cd advanced_rag
+   ```
+2. **Create and activate a virtual environment (using Anaconda or virtualenv):**
 
-## Outros Módulos
-- **Pré-processamento e Indexação:**
- - Execute o script de preparação de dados (prepare_data.py) para gerar os chunks do texto.
- - Execute o script de indexação (pinecone_indexer.py) para gerar os embeddings e realizar o upsert no Pinecone.
-- **Testes:**
-    Para rodar a suíte de testes, execute:
-    ```bash
-    pytest tests/
+   ```bash
+   conda create --name advanced_rag python=3.9
+   conda activate advanced_rag
+   ```
+3. **Install dependencies:**
 
-## Funcionalidades Principais
-- **Ingestão e Pré-processamento:**
-    O texto do livro é carregado, processado e dividido em chunks para facilitar a recuperação.
+   ```bash
+   pip install -r requirements.txt
+   Note: Make sure all required dependencies (such as Pinecone, langchain-openai, langchain-community, Gradio, diskcache, etc.) are properly installed as specified in requirements.txt.
+   ```
+4. **Set environment variables:**
+   Create a `.env` file at the root of the project with the following content (replace the keys as needed):
 
-- **Geração de Embeddings e Indexação:**
-    Cada chunk é convertido em um vetor de embedding utilizando o modelo OpenAI e indexado em um banco vetorial (Pinecone).
+   ```bash
+   OPENAI_API_KEY=your_openai_api_key
+   PINECONE_API_KEY=your_pinecone_api_key
+   PINECONE_ENV=your_pinecone_env  # e.g., "us-east-1"
+   ```
 
-- **Recuperação com Re-Ranking:**
-    Ao receber uma consulta, o sistema recupera os chunks mais relevantes e os reordena utilizando um modelo cross-encoder.
+## Execution
 
-- **Composição do Prompt e Geração de Resposta:**
-    Um template customizado (que combina informações de role, goal, backstory e question) é utilizado para compor o prompt final enviado ao LLM para gerar a resposta.
+### Gradio Front-End
 
-- **Mecanismo de Cache:**
-    Respostas são armazenadas em cache para otimizar consultas repetidas.
+To start the chatbot interface, run:
+\`\`\`bash
+python src/front\_end/app.py
+This will open the Gradio interface in your browser, where you can type your question about *On the Origin of Species* and receive a generated response from the system.
 
-- **Etapa de Clarificação:**
-    Se a pergunta do usuário for ambígua, o sistema utiliza um LLM para gerar uma pergunta de clarificação e solicita mais detalhes antes de prosseguir.
+## Other Modules
 
-## Considerações e Evolução do Produto
-- **Gerenciamento de Contexto e Memória:**
-    Atualmente, o sistema não implementa uma memória de conversação multi-turno, mas essa funcionalidade é recomendada para futuras evoluções.
+* **Preprocessing and Indexing:**
+* Run the data preparation script (`prepare_data.py`) to generate text chunks.
+* Run the indexing script (`pinecone_indexer.py`) to generate embeddings and perform the upsert into Pinecone.
+* **Testing:**
+  To run the test suite, execute:
 
-- **Evolução para Agentic RAG:**
-    O Advanced RAG estabelece uma base robusta para respostas contextualizadas. Como próxima etapa, o Agentic RAG pode ser implementado para adicionar uma camada de “raciocínio multi-etapas” ou uso de ferramentas externas. Por exemplo:
+  ```bash
+  pytest tests/
+  ```
 
-    - Recuperação Multi-Hop: O agente poderia recuperar trechos do livro de Darwin e, em seguida, consultar outra base de conhecimento para comparar com outro autor.
-    - Clarificação Dinâmica: Poderia fazer perguntas adicionais para definir melhor o contexto (ex.: "Você se refere à edição de 1859 ou de 1872?").
-    - Orquestração de Tarefas: O Advanced RAG serve como base, enquanto o Agentic RAG introduzirá um nível extra de interação e raciocínio para tarefas mais complexas.
+## Main Features
 
-- **Interface e Usabilidade:**
-    O front-end com Gradio demonstra as funcionalidades do sistema. Futuramente, a interface pode ser aprimorada para incluir histórico de conversa, suporte a multi-turnos, entre outros recursos.
+* **Ingestion and Preprocessing:**
+  The book text is loaded, processed, and split into chunks to facilitate retrieval.
 
-- **Recomendações Técnicas:**
- - Migrar para a nova interface de ChatOpenAI conforme as recomendações do LangChain.
- - Considerar a implementação de metadados para referência de fontes (capítulos, seções, etc.) para maior transparência nas respostas.
+* **Embedding Generation and Indexing:**
+  Each chunk is converted into an embedding vector using the OpenAI model and indexed in a vector database (Pinecone).
 
- ## Demonstração
-Um vídeo curto que demonstra o funcionamento do sistema, destacando:
+* **Retrieval with Re-Ranking:**
+  Upon receiving a query, the system retrieves the most relevant chunks and reorders them using a cross-encoder model.
 
-- Interação do Usuário:
-    Como o usuário insere sua pergunta na interface Gradio.
+* **Prompt Composition and Response Generation:**
+  A custom prompt template (combining role, goal, backstory, and question) is used to compose the final prompt sent to the LLM to generate the answer.
 
-- Etapa de Clarificação:
-    Se a pergunta for ambígua, o sistema solicita que o usuário forneça mais detalhes.
+* **Cache Mechanism:**
+  Responses are cached to optimize repeated queries.
 
-- Fluxo Completo:
-    Desde a ingestão dos dados, recuperação com re-ranking, composição do prompt e geração da resposta final.
+* **Clarification Step:**
+  If the user's question is ambiguous, the system uses an LLM to generate a clarifying question and asks for more detail before proceeding.
 
-- Uso do Cache:
-    Demonstração de como consultas repetidas são otimizadas com o mecanismo de cache.
+## Product Considerations and Evolution
 
-Assista ao vídeo de demonstração no YouTube:
-[![Assista ao vídeo](https://img.youtube.com/vi/AewMMIsGMLs/0.jpg)](https://www.youtube.com/watch?v=AewMMIsGMLs)
+* **Context and Memory Management:**
+  Currently, the system does not implement multi-turn conversational memory, but this functionality is recommended for future versions.
+
+* **Evolution to Agentic RAG:**
+  The Advanced RAG establishes a robust foundation for contextualized responses. As a next step, Agentic RAG can be implemented to add a layer of “multi-step reasoning” or integration with external tools. For example:
+
+  * Multi-Hop Retrieval: The agent could retrieve excerpts from Darwin’s book and then consult another knowledge base to compare with a different author.
+  * Dynamic Clarification: It could ask follow-up questions to better define context (e.g., "Are you referring to the 1859 or 1872 edition?").
+  * Task Orchestration: Advanced RAG serves as a base, while Agentic RAG introduces an additional level of interaction and reasoning for more complex tasks.
+
+* **Interface and Usability:**
+  The Gradio front-end demonstrates the system’s functionality. In the future, the interface could be enhanced to include conversation history, support for multi-turn dialogue, among other features.
+
+* **Technical Recommendations:**
+
+* Migrate to the new `ChatOpenAI` interface as recommended by LangChain.
+
+* Consider implementing metadata for source reference (chapters, sections, etc.) to improve transparency in responses.
+
+## Demonstration
+
+A short video demonstrating how the system works, highlighting:
+
+* User Interaction:
+  How users input their questions in the Gradio interface.
+
+* Clarification Step:
+  If the question is ambiguous, the system requests additional details from the user.
+
+* Full Flow:
+  From data ingestion, retrieval with re-ranking, prompt composition to final response generation.
+
+* Cache Usage:
+  Demonstration of how repeated queries are optimized using the caching mechanism.
+
+Watch the demo video on YouTube:
+[![Watch the video](https://img.youtube.com/vi/AewMMIsGMLs/0.jpg)](https://www.youtube.com/watch?v=AewMMIsGMLs)
