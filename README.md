@@ -27,7 +27,7 @@ This project is an implementation of a **Generative AI system with Retrieval-Aug
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/advanced_rag.git
+   git clone https://github.com/joaojulio/advanced_rag.git
    cd advanced_rag
    ```
 2. **Create and activate a virtual environment (using Anaconda or virtualenv):**
@@ -39,9 +39,12 @@ This project is an implementation of a **Generative AI system with Retrieval-Aug
 3. **Install dependencies:**
 
    ```bash
+   cd rag_solution
    pip install -r requirements.txt
-   Note: Make sure all required dependencies (such as Pinecone, langchain-openai, langchain-community, Gradio, diskcache, etc.) are properly installed as specified in requirements.txt.
    ```
+   
+  Note: Make sure all required dependencies (such as Pinecone, langchain-openai, langchain-community, Gradio, diskcache, etc.) are properly installed as specified in requirements.txt.
+  
 4. **Set environment variables:**
    Create a `.env` file at the root of the project with the following content (replace the keys as needed):
 
